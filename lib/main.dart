@@ -19,7 +19,7 @@ class JalJaYo extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: ref.watch(routerProvier),
       debugShowCheckedModeBanner: false,
-      title: 'TikTok Clone',
+      title: 'JalJaYo',
       themeMode: ThemeMode.system,
       theme: ThemeData(
         useMaterial3: true,
