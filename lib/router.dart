@@ -9,7 +9,7 @@ final routerProvier = Provider(
       initialLocation: "/",
       routes: [
         GoRoute(
-          path: '/',
+          path: HomeScreen.routeURL,
           pageBuilder: (context, state) => const MaterialPage(
             child: HomeScreen(),
           ),
