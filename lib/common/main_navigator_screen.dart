@@ -22,7 +22,7 @@ class _MainNavigatorState extends State<MainNavigator> {
     return BottomAppBar(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
+        children: [
           NavigationTab(
             name: 'sleep',
             icon: FontAwesomeIcons.bed,
