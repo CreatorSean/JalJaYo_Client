@@ -50,6 +50,7 @@ class _MainAppBarState extends State<MainAppBar> {
         scanResultList = results;
         // UI 갱신
         setState(() {});
+        print(scanResultList);
       });
     } else {
       // 스캔 중이라면 스캔 정지
@@ -136,10 +137,16 @@ class _MainAppBarState extends State<MainAppBar> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       const SizedBox(height: 25),
-                      const Text('페어링 할 기기 선택.'),
+                      const Text(
+                        '페어링 할 기기 선택',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
                       const SizedBox(height: 15),
                       SizedBox(
-                        height: 300,
+                        height: 280,
                         child: ListView.separated(
                           itemCount: scanResultList.length,
                           itemBuilder: (context, index) {
@@ -159,12 +166,19 @@ class _MainAppBarState extends State<MainAppBar> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text('Close'),
+                              child: const Text(
+                                'Close',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                             ),
                             IconButton(
                               onPressed: scan,
-                              icon: Icon(
-                                _isScanning ? Icons.stop : Icons.search,
+                              icon: const Icon(
+                                Icons.search,
+                                size: 22,
                               ),
                             ),
                           ],
