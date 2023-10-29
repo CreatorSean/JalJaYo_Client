@@ -32,9 +32,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MainAppBar(
-        title: "Gae GGul Sleep",
-      ),
       body: PageView(
         controller: _pageController,
         onPageChanged: changePage,

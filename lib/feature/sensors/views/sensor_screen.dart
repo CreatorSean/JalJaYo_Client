@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jaljayo/bluetooth.dart';
 import 'package:jaljayo/feature/sensors/widgets/acc_sensor_widget.dart';
 import 'package:jaljayo/feature/sensors/widgets/hr_sensor_widget.dart';
 
@@ -11,6 +13,27 @@ class SensorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: IconButton(
+              onPressed: () => const Bluetooth(),
+              icon: const Icon(FontAwesomeIcons.bluetooth),
+            ),
+          ),
+        ],
+        backgroundColor: Colors.blueAccent,
+        elevation: 3,
+        title: const Text(
+          "Gae GGul Sleep",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
       body: Column(
         children: [
           const SizedBox(
