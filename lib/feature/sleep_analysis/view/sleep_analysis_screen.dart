@@ -162,8 +162,12 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
     return showDialog(
       context: context,
       builder: (context) {
-        return Dialog(
-          child: Container(
+        return AlertDialog(
+          backgroundColor: const Color(0xff322D3F),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          content: Container(
             decoration: const BoxDecoration(
               color: Color(0xff322D3F),
             ),
