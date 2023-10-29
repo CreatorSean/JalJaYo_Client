@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jaljayo/feature/bluetooth/views/device_screen.dart';
+import 'package:jaljayo/feature/sleep_analysis/view/sleep_state_screen.dart';
 
 const datas = [
   "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
@@ -148,6 +149,109 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
     );
   }
 
+  void _onSleepStateTap(BuildContext context) {
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SleepStateScreen(),
+      ),
+    );
+  }
+
+  Future _sleepDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xff322D3F),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(height: 35),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    '10월 28일 수면 데이터를 분석하시겠습니까?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () => _onSleepStateTap(context),
+                      child: Container(
+                        height: 40,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                        ),
+                        child: const Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Text(
+                              '확인',
+                              style: TextStyle(
+                                color: Color(0xff322D3F),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Container(
+                        height: 40,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                        ),
+                        child: const Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Text(
+                              '취소',
+                              style: TextStyle(
+                                color: Color(0xff322D3F),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget dataItem(String r) {
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -159,6 +263,7 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
         color: Colors.white,
       ),
       child: ListTile(
+        onTap: () => _sleepDialog(context),
         title: Text(r),
         titleAlignment: ListTileTitleAlignment.center,
       ),
