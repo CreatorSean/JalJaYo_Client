@@ -2,9 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jaljayo/bluetooth.dart';
-import 'package:jaljayo/common/main_app_bar.dart';
 import 'package:jaljayo/feature/bluetooth/views/device_screen.dart';
+
+const datas = [
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
+];
 
 class SleepAnalysisScreen extends StatefulWidget {
   const SleepAnalysisScreen({super.key});
@@ -133,6 +148,23 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
     );
   }
 
+  Widget dataItem(String r) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 8.0,
+        vertical: 12.0,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
+      ),
+      child: ListTile(
+        title: Text(r),
+        titleAlignment: ListTileTitleAlignment.center,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -177,13 +209,24 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: const Color(0xff322D3F),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
                     ),
-                    height: 300,
+                    height: 320,
                     width: 320,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        const SizedBox(
+                          height: 15,
+                        ),
                         const Text(
                           '페어링 할 기기 선택',
                           style: TextStyle(
@@ -212,7 +255,13 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
                             );
                           },
                           child: _isScanning
-                              ? const CircularProgressIndicator()
+                              ? const SizedBox(
+                                  height: 22,
+                                  width: 22,
+                                  child: CircularProgressIndicator(
+                                    color: Color(0xffffffff),
+                                  ),
+                                )
                               : const Icon(
                                   Icons.search,
                                   size: 22,
@@ -225,8 +274,18 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
                 ),
               ],
             )
-          : const Center(
-              child: Text('not Clicked'),
+          : Padding(
+              padding: const EdgeInsets.all(20),
+              child: Center(
+                  child: ListView.separated(
+                itemCount: datas.length,
+                itemBuilder: (context, index) {
+                  return dataItem(datas[index]);
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+              )),
             ),
     );
   }
