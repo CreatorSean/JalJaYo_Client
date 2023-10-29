@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:jaljayo/feature/sensors/widgets/acc_sensor_widget.dart';
 
 class SensorScreen extends StatelessWidget {
   static String route = '/sensor';
@@ -7,9 +9,14 @@ class SensorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Sensor'),
+    return Scaffold(
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 300,
+            child: AccSensorWidget(),
+          ).animate().fadeIn(duration: 1.seconds),
+        ],
       ),
     );
   }

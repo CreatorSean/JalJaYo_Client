@@ -11,6 +11,7 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   });
   @override
   Size get preferredSize => const Size.fromHeight(50);
+
   @override
   State<MainAppBar> createState() => _MainAppBarState();
 }
@@ -49,13 +50,13 @@ class _MainAppBarState extends State<MainAppBar> {
       flutterBlue.scanResults.listen((results) {
         scanResultList = results;
         // UI 갱신
-        setState(() {});
         print(scanResultList);
       });
     } else {
       // 스캔 중이라면 스캔 정지
       flutterBlue.stopScan();
     }
+    setState(() {});
   }
 
   /*
@@ -111,6 +112,8 @@ class _MainAppBarState extends State<MainAppBar> {
 
   /* 장치 아이템 위젯 */
   Widget listItem(ScanResult r) {
+    print("i'm working");
+
     return ListTile(
       onTap: () => onTap(r),
       leading: leading(r),
@@ -123,6 +126,7 @@ class _MainAppBarState extends State<MainAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      centerTitle: true,
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -197,6 +201,10 @@ class _MainAppBarState extends State<MainAppBar> {
       elevation: 3,
       title: Text(
         widget.title,
+        style: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
+        ),
       ),
     );
   }

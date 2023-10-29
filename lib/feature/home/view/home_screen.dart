@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:jaljayo/common/main_app_bar.dart';
 import 'package:jaljayo/common/main_navigator_screen.dart';
 import 'package:jaljayo/feature/sensors/views/sensor_screen.dart';
@@ -23,8 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _pageController.animateToPage(
       index,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.ease,
+      duration: 300.ms,
+      curve: Curves.linear,
     );
 
     setState(() {});

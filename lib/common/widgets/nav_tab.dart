@@ -59,14 +59,13 @@ class _NavigationTabState extends State<NavigationTab> {
           .scale(
             begin: const Offset(1, 1),
             end: const Offset(1.2, 1.2),
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.ease,
+            duration: 300.ms,
+            curve: Curves.easeInOut,
           )
           .slideY(
             begin: 0,
-            end: -0.3,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.ease,
+            end: -0.1,
+            curve: Curves.bounceInOut,
           ),
     );
   }
