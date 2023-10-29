@@ -260,6 +260,14 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 0.5,
+            blurRadius: 7,
+            offset: const Offset(0, 10),
+          ),
+        ],
         color: Colors.white,
       ),
       child: ListTile(
@@ -273,6 +281,7 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD3D3D3),
       appBar: AppBar(
         centerTitle: true,
         actions: [
@@ -288,7 +297,7 @@ class _SleepAnalysisScreenState extends State<SleepAnalysisScreen> {
             ),
           ),
         ],
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: const Color(0xFF322D3F),
         elevation: 3,
         title: const Text(
           "Gae GGul Sleep",

@@ -29,7 +29,7 @@ class _MainAppBarState extends State<MainAppBar> {
           ),
         ),
       ],
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: const Color(0xff322D3F),
       elevation: 3,
       title: Text(
         widget.title,
