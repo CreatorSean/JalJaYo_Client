@@ -87,48 +87,76 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: LineChart(
-        duration: 0.ms,
-        LineChartData(
-          clipData: const FlClipData.all(),
-          maxY: 2.0,
-          baselineY: 0,
-          minY: -2.0,
-          titlesData: const FlTitlesData(
-            show: true,
-            topTitles: AxisTitles(
-              sideTitles: SideTitles(
-                showTitles: false,
+    return Stack(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(
+            top: 40,
+            bottom: 20,
+          ),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                spreadRadius: 4,
+                blurRadius: 3,
               ),
+            ],
+          ),
+          child: LineChart(
+            duration: 0.ms,
+            LineChartData(
+              clipData: const FlClipData.all(),
+              maxY: 2.0,
+              baselineY: 0,
+              minY: -2.0,
+              titlesData: const FlTitlesData(
+                show: true,
+                topTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: false,
+                  ),
+                ),
+              ),
+              gridData: FlGridData(
+                horizontalInterval: 1.0,
+                getDrawingHorizontalLine: (value) {
+                  return const FlLine(
+                    color: Colors.grey,
+                    strokeWidth: 0.5,
+                  );
+                },
+              ),
+              lineBarsData: [
+                generateLineChartBarData(
+                  spots: generateSpotData(accData: _accX),
+                  color: Colors.redAccent,
+                ),
+                generateLineChartBarData(
+                  spots: generateSpotData(accData: _accY),
+                  color: Colors.greenAccent,
+                ),
+                generateLineChartBarData(
+                  spots: generateSpotData(accData: _accZ),
+                  color: Colors.blueAccent,
+                ),
+              ],
             ),
           ),
-          gridData: FlGridData(
-            horizontalInterval: 1.0,
-            getDrawingHorizontalLine: (value) {
-              return const FlLine(
-                color: Colors.grey,
-                strokeWidth: 0.5,
-              );
-            },
-          ),
-          lineBarsData: [
-            generateLineChartBarData(
-              spots: generateSpotData(accData: _accX),
-              color: Colors.redAccent,
-            ),
-            generateLineChartBarData(
-              spots: generateSpotData(accData: _accY),
-              color: Colors.greenAccent,
-            ),
-            generateLineChartBarData(
-              spots: generateSpotData(accData: _accZ),
-              color: Colors.blueAccent,
-            ),
-          ],
         ),
-      ),
+        const Positioned(
+          top: 15,
+          left: 45,
+          child: Text("Acceleation"),
+        ),
+        const Positioned(
+          bottom: 7,
+          left: 170,
+          child: Text("t(s)"),
+        ),
+      ],
     );
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/feature/bluetooth/views/bluetooth.dart';
 import 'package:jaljayo/feature/sensors/widgets/acc_sensor_widget.dart';
 import 'package:jaljayo/feature/sensors/widgets/hr_sensor_widget.dart';
+import 'package:jaljayo/feature/sensors/widgets/oxygen_sensor_widget.dart';
 
 class SensorScreen extends StatelessWidget {
   static String route = '/sensor';
@@ -35,18 +37,28 @@ class SensorScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: const Color(0xffD3D3D3),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 150,
-            child: HrSensorWidget(),
-          ).animate().fadeIn(duration: 1.seconds),
-          const Center(heightFactor: 10, child: Text("예쁘게 만들어주세요!")),
-          const SizedBox(
-            height: 300,
-            child: AccSensorWidget(),
-          ).animate().fadeIn(duration: 1.seconds),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 400,
+              width: 550,
+              child: HrSensorWidget(),
+            ).animate().fadeIn(duration: 1.seconds),
+            //const Center(heightFactor: 10, child: Text("예쁘게 만들어주세요!")),
+            const SizedBox(
+              height: 220,
+              width: 360,
+              child: AccSensorWidget(),
+            ).animate().fadeIn(duration: 1.seconds),
+            Gaps.v32,
+            const SizedBox(
+              height: 220,
+              width: 360,
+              child: OxygenSensorWidget(),
+            ).animate().fadeIn(duration: 1.seconds),
+          ],
+        ),
       ),
     );
   }
