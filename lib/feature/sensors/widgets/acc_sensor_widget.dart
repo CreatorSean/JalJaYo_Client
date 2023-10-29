@@ -57,9 +57,7 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void initTimer() {
     _timer = Timer.periodic(
       200.ms,
       (timer) {
@@ -73,6 +71,12 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
         });
       },
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initTimer();
   }
 
   @override
@@ -92,24 +96,11 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
           maxY: 2.0,
           baselineY: 0,
           minY: -2.0,
-          titlesData: FlTitlesData(
+          titlesData: const FlTitlesData(
             show: true,
-            topTitles: const AxisTitles(
+            topTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: false,
-              ),
-            ),
-            bottomTitles: AxisTitles(
-              sideTitles: SideTitles(
-                getTitlesWidget: (value, meta) {
-                  return Text(
-                    value.toDouble().toString(),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                    ),
-                  );
-                },
               ),
             ),
           ),
