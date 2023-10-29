@@ -24,7 +24,7 @@ class SensorScreen extends StatelessWidget {
             ),
           ),
         ],
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: const Color(0xff322D3F),
         elevation: 3,
         title: const Text(
           "Gae GGul Sleep",
@@ -34,6 +34,7 @@ class SensorScreen extends StatelessWidget {
           ),
         ),
       ),
+      backgroundColor: const Color(0xffD3D3D3),
       body: Column(
         children: [
           const SizedBox(

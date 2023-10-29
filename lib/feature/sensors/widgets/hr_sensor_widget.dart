@@ -85,64 +85,66 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
-      child: Stack(
-        children: [
-          LineChart(
-            duration: 0.ms,
-            LineChartData(
-              clipData: const FlClipData.all(),
-              maxY: 120.0,
-              baselineY: 0,
-              minY: 0.0,
-              titlesData: const FlTitlesData(
-                show: true,
-                topTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: false,
+      child: Container(
+        child: Stack(
+          children: [
+            LineChart(
+              duration: 0.ms,
+              LineChartData(
+                clipData: const FlClipData.all(),
+                maxY: 120.0,
+                baselineY: 0,
+                minY: 0.0,
+                titlesData: const FlTitlesData(
+                  show: true,
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: false,
+                    ),
                   ),
                 ),
-              ),
-              gridData: FlGridData(
-                horizontalInterval: 20,
-                getDrawingHorizontalLine: (value) {
-                  return const FlLine(
-                    color: Colors.grey,
-                    strokeWidth: 0.5,
-                  );
-                },
-              ),
-              lineBarsData: [
-                buildLineChartBarData(
-                  spots: generateSpotData(hrData: _hrData),
-                  color: Colors.redAccent,
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: 40,
-            right: 60,
-            child: Row(
-              children: [
-                const Icon(FontAwesomeIcons.heart).animate(
-                  onComplete: (controller) {
-                    controller.repeat(
-                      reverse: true,
-                      period: 200.ms,
+                gridData: FlGridData(
+                  horizontalInterval: 20,
+                  getDrawingHorizontalLine: (value) {
+                    return const FlLine(
+                      color: Colors.grey,
+                      strokeWidth: 0.5,
                     );
                   },
-                ).scale(
-                  begin: const Offset(1, 1),
-                  end: const Offset(1.2, 1.2),
-                  duration: 500.ms,
-                  curve: Curves.easeInOut,
                 ),
-                Gaps.h10,
-                Text(_hrData.last.round().toString())
-              ],
+                lineBarsData: [
+                  buildLineChartBarData(
+                    spots: generateSpotData(hrData: _hrData),
+                    color: Colors.redAccent,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 40,
+              right: 60,
+              child: Row(
+                children: [
+                  const Icon(FontAwesomeIcons.heart).animate(
+                    onComplete: (controller) {
+                      controller.repeat(
+                        reverse: true,
+                        period: 200.ms,
+                      );
+                    },
+                  ).scale(
+                    begin: const Offset(1, 1),
+                    end: const Offset(1.2, 1.2),
+                    duration: 500.ms,
+                    curve: Curves.easeInOut,
+                  ),
+                  Gaps.h10,
+                  Text(_hrData.last.round().toString())
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

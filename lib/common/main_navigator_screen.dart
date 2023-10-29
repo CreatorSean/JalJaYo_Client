@@ -20,6 +20,7 @@ class _MainNavigatorState extends State<MainNavigator> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+      color: const Color(0xffEEEEEE),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
