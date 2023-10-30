@@ -6,7 +6,11 @@ import 'package:jaljayo/constants/sizes.dart';
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_piechart_widget.dart';
 
 class SleepStateScreen extends StatelessWidget {
-  const SleepStateScreen({super.key});
+  String sleepDate;
+  SleepStateScreen({
+    super.key,
+    required this.sleepDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +52,12 @@ class SleepStateScreen extends StatelessWidget {
               ),
             ),
             Gaps.v24,
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
-                    Text(
+                    const Text(
                       '7H 4M',
                       style: TextStyle(
                         color: Color(0xff322d3f),
@@ -63,8 +67,8 @@ class SleepStateScreen extends StatelessWidget {
                     ),
                     Gaps.v16,
                     Text(
-                      '2023년 10월 27일',
-                      style: TextStyle(
+                      sleepDate,
+                      style: const TextStyle(
                         color: Color(0xff322d3f),
                         fontWeight: FontWeight.w500,
                       ),
