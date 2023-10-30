@@ -362,80 +362,87 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
             ),
           ),
           body: isClicked
-              ? Stack(
-                  children: [
-                    const Center(
-                      child: Text('not Clicked'),
-                    ),
-                    Container(
-                      color: Colors.grey.withOpacity(0.8),
-                    ),
-                    Positioned(
-                      top: MediaQuery.of(context).size.height / 2 - 300,
-                      left: MediaQuery.of(context).size.width / 2 - 160,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: const Color(0xff322D3F),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        height: 400,
-                        width: 320,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Gaps.v12,
-                            const Text(
-                              '페어링 할 기기 선택',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xffFFFFFF)),
-                            ),
-                            SizedBox(
-                              height: 300,
-                              child: ListView.separated(
-                                itemCount: scanResultList.length,
-                                itemBuilder: (context, index) {
-                                  return listItem(scanResultList[index]);
-                                },
-                                separatorBuilder:
-                                    (BuildContext context, index) {
-                                  return const Divider();
-                                },
+              ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isClicked = !isClicked;
+                    });
+                  },
+                  child: Stack(
+                    children: [
+                      const Center(
+                        child: Text('not Clicked'),
+                      ),
+                      Container(
+                        color: Colors.grey.withOpacity(0.8),
+                      ),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height / 2 - 300,
+                        left: MediaQuery.of(context).size.width / 2 - 160,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: const Color(0xff322D3F),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: const Offset(0, 3),
                               ),
-                            ),
-                            CupertinoButton(
-                              onPressed: () {
-                                scan();
-                              },
-                              child: _isScanning
-                                  ? const SizedBox(
-                                      height: 22,
-                                      width: 22,
-                                      child: CircularProgressIndicator(
+                            ],
+                          ),
+                          height: 400,
+                          width: 320,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Gaps.v12,
+                              const Text(
+                                '페어링 할 기기 선택',
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xffFFFFFF)),
+                              ),
+                              SizedBox(
+                                height: 300,
+                                child: ListView.separated(
+                                  itemCount: scanResultList.length,
+                                  itemBuilder: (context, index) {
+                                    return listItem(scanResultList[index]);
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, index) {
+                                    return const Divider();
+                                  },
+                                ),
+                              ),
+                              CupertinoButton(
+                                onPressed: () {
+                                  scan();
+                                },
+                                child: _isScanning
+                                    ? const SizedBox(
+                                        height: 22,
+                                        width: 22,
+                                        child: CircularProgressIndicator(
+                                          color: Color(0xffffffff),
+                                        ),
+                                      )
+                                    : const Icon(
+                                        Icons.search,
+                                        size: 22,
                                         color: Color(0xffffffff),
                                       ),
-                                    )
-                                  : const Icon(
-                                      Icons.search,
-                                      size: 22,
-                                      color: Color(0xffffffff),
-                                    ),
-                            ),
-                          ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 )
               : Padding(
                   padding: const EdgeInsets.all(20),
