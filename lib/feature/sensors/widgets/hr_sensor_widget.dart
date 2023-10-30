@@ -3,15 +3,13 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/constants/sizes.dart';
 
 class HrSensorWidget extends StatefulWidget {
   const HrSensorWidget({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HrSensorWidget> createState() => _HrSensorWidgetState();
@@ -60,7 +58,7 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
 
   void initTimer() {
     _timer = Timer.periodic(
-      1.seconds,
+      const Duration(seconds: 1),
       (timer) {
         setState(() {
           _hrData.removeAt(0);
@@ -98,49 +96,48 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
             ),
           ],
         ),
-        child: Stack(
+        child: Column(
           children: [
-            Positioned(
-              left: 5,
-              right: 5,
-              top: 20,
-              bottom: 150,
-              child: LineChart(
-                duration: 0.ms,
-                LineChartData(
-                  clipData: const FlClipData.all(),
-                  maxY: 120.0,
-                  baselineY: 0,
-                  minY: 0.0,
-                  titlesData: const FlTitlesData(
-                    show: true,
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: false,
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: LineChart(
+                  duration: const Duration(milliseconds: 0),
+                  LineChartData(
+                    clipData: const FlClipData.all(),
+                    maxY: 120.0,
+                    baselineY: 0,
+                    minY: 0.0,
+                    titlesData: const FlTitlesData(
+                      show: true,
+                      topTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: false,
+                        ),
                       ),
                     ),
-                  ),
-                  gridData: FlGridData(
-                    horizontalInterval: 20,
-                    getDrawingHorizontalLine: (value) {
-                      return const FlLine(
-                        color: Colors.grey,
-                        strokeWidth: 0.5,
-                      );
-                    },
-                  ),
-                  lineBarsData: [
-                    buildLineChartBarData(
-                      spots: generateSpotData(hrData: _hrData),
-                      color: Colors.redAccent,
+                    gridData: FlGridData(
+                      horizontalInterval: 20,
+                      getDrawingHorizontalLine: (value) {
+                        return const FlLine(
+                          color: Colors.grey,
+                          strokeWidth: 0.5,
+                        );
+                      },
                     ),
-                  ],
+                    lineBarsData: [
+                      buildLineChartBarData(
+                        spots: generateSpotData(hrData: _hrData),
+                        color: Colors.redAccent,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            const Positioned(
-              bottom: 50,
-              right: 135,
+            const Padding(
+              padding: EdgeInsets.only(top: 5),
               child: Text(
                 "현재 심박수",
                 style: TextStyle(
@@ -149,91 +146,98 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 10,
-              right: 130,
-              child: Row(
-                children: [
-                  const Icon(FontAwesomeIcons.heartPulse).animate(
-                    // 움직이는 아이콘
-                    onComplete: (controller) {
-                      controller.repeat(
-                        reverse: true,
-                        period: 200.ms,
-                      );
-                    },
-                  ).scale(
-                    begin: const Offset(1, 1),
-                    end: const Offset(1.2, 1.2),
-                    duration: 500.ms,
-                    curve: Curves.easeInOut,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 1, end: 1.2),
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                        builder: (context, value, child) {
+                          return Transform.scale(
+                            scale: value,
+                            child: child,
+                          );
+                        },
+                        child: const Icon(
+                          FontAwesomeIcons.heartPulse,
+                          size: Sizes.size32,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        _hrData.last.round().toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: Sizes.size32,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        "BPM",
+                        style: TextStyle(
+                          fontSize: Sizes.size18,
+                        ),
+                      ),
+                    ],
                   ),
-                  Gaps.h10,
-                  Text(
-                    _hrData.last.round().toString(), // 실시간으로 변하는 현재 심박수
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: Sizes.size32,
-                    ),
-                  ),
-                  Gaps.h5,
-                  const Text("BPM"), // 단위 BPM
-                ],
-              ),
-            ),
-            const Positioned(
-              bottom: 115,
-              left: 45,
-              child: Text(
-                "수면중 평균 심박수",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: Sizes.size14,
                 ),
-              ),
+              ],
             ),
-            Positioned(
-              bottom: 80,
-              left: 70,
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    _hrData.last.round().toString(), // 수면중 평균 심박수 바꾸는 부분
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: Sizes.size24,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "수면중 평균 심박수",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: Sizes.size14,
+                          ),
+                        ),
+                        Text(
+                          _hrData.last.round().toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Sizes.size24,
+                          ),
+                        ),
+                        const Text("BPM"),
+                      ],
                     ),
                   ),
-                  Gaps.h5,
-                  const Text("BPM"),
-                ],
-              ),
-            ),
-            const Positioned(
-              bottom: 115,
-              right: 45,
-              child: Text(
-                "활동중 평균 심박수",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: Sizes.size14,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 80,
-              right: 65,
-              child: Row(
-                children: [
-                  Text(
-                    _hrData.last.round().toString(), // 활동중 평균 심박수 바꾸는 부분
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: Sizes.size24,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Column(
+                      children: [
+                        const Text(
+                          "활동중 평균 심박수",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: Sizes.size14,
+                          ),
+                        ),
+                        Text(
+                          _hrData.last.round().toString(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Sizes.size24,
+                          ),
+                        ),
+                        const Text("BPM"),
+                      ],
                     ),
                   ),
-                  Gaps.h5,
-                  const Text("BPM"),
                 ],
               ),
             ),

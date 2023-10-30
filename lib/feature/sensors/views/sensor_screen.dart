@@ -48,13 +48,13 @@ class SensorScreen extends StatelessWidget {
             //const Center(heightFactor: 10, child: Text("예쁘게 만들어주세요!")),
             const SizedBox(
               height: 220,
-              width: 360,
+              width: 310,
               child: AccSensorWidget(),
             ).animate().fadeIn(duration: 1.seconds),
             Gaps.v32,
             const SizedBox(
               height: 220,
-              width: 360,
+              width: 310,
               child: OxygenSensorWidget(),
             ).animate().fadeIn(duration: 1.seconds),
           ],

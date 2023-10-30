@@ -153,7 +153,7 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
         ),
         const Positioned(
           bottom: 7,
-          left: 170,
+          left: 145,
           child: Text("t(s)"),
         ),
       ],
