@@ -1,8 +1,8 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/constants/sizes.dart';
+import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_linechart_widget.dart';
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_piechart_widget.dart';
 
 class SleepStateScreen extends StatelessWidget {
@@ -121,6 +121,12 @@ class SleepStateScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Gaps.v16,
+                  SizedBox(
+                    height: 200,
+                    width: 400,
+                    child: SleepLineChart(),
+                  )
                 ],
               ),
             ),
