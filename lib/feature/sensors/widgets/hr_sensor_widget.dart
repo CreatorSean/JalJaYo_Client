@@ -205,14 +205,18 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
                             fontSize: Sizes.size14,
                           ),
                         ),
-                        Text(
-                          _hrData.last.round().toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size24,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              _hrData.last.round().toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Sizes.size24,
+                              ),
+                            ),
+                            const Text("BPM"),
+                          ],
                         ),
-                        const Text("BPM"),
                       ],
                     ),
                   ),
@@ -227,14 +231,18 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
                             fontSize: Sizes.size14,
                           ),
                         ),
-                        Text(
-                          _hrData.last.round().toString(),
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: Sizes.size24,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              _hrData.last.round().toString(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: Sizes.size24,
+                              ),
+                            ),
+                            const Text("BPM"),
+                          ],
                         ),
-                        const Text("BPM"),
                       ],
                     ),
                   ),

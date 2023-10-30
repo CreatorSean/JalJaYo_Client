@@ -92,7 +92,7 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
         Container(
           padding: const EdgeInsets.only(
             top: 40,
-            bottom: 20,
+            bottom: 25,
           ),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -152,7 +152,7 @@ class _AccSensorWidgetState extends State<AccSensorWidget> {
           child: Text("Acceleation"),
         ),
         const Positioned(
-          bottom: 7,
+          bottom: 5,
           left: 145,
           child: Text("t(s)"),
         ),

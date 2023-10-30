@@ -47,7 +47,7 @@ class SensorScreen extends StatelessWidget {
             ).animate().fadeIn(duration: 1.seconds),
             //const Center(heightFactor: 10, child: Text("예쁘게 만들어주세요!")),
             const SizedBox(
-              height: 220,
+              height: 230,
               width: 310,
               child: AccSensorWidget(),
             ).animate().fadeIn(duration: 1.seconds),
