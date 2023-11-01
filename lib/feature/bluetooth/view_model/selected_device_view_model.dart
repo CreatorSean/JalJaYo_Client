@@ -39,7 +39,7 @@ class SelectedDeviceViewModel extends AsyncNotifier<SelectedDeviceModel> {
 
     connect();
 
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       readCharacteristic();
     });
   }
@@ -134,7 +134,7 @@ class SelectedDeviceViewModel extends AsyncNotifier<SelectedDeviceModel> {
 
   @override
   FutureOr<SelectedDeviceModel> build() {
-    return build();
+    return model;
   }
 }
 

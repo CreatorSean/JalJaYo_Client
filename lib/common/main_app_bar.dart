@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jaljayo/feature/bluetooth/view_model/selected_device_view_model.dart';
 import 'package:jaljayo/feature/bluetooth/views/bluetooth_dialog.dart';
 
-class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
+class MainAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   final String title;
   const MainAppBar({
     super.key,
@@ -13,10 +16,10 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(50);
 
   @override
-  State<MainAppBar> createState() => _MainAppBarState();
+  ConsumerState<MainAppBar> createState() => _MainAppBarState();
 }
 
-class _MainAppBarState extends State<MainAppBar> {
+class _MainAppBarState extends ConsumerState<MainAppBar> {
   void onBluetooth(BuildContext context) {
     showDialog(
       context: context,
@@ -46,7 +49,23 @@ class _MainAppBarState extends State<MainAppBar> {
             onPressed: () {
               onBluetooth(context);
             },
-            icon: const Icon(FontAwesomeIcons.bluetooth),
+            icon: ref.watch(selectedDeviceViewModelProvider).when(
+                  data: (data) {
+                    if (data.deviceState == BluetoothDeviceState.connected) {
+                      return const Icon(FontAwesomeIcons.bluetooth,
+                          color: Colors.blueAccent);
+                    } else {
+                      return const Icon(
+                        FontAwesomeIcons.bluetooth,
+                        color: Colors.white,
+                      );
+                    }
+                  },
+                  loading: () => const Icon(Icons.refresh_rounded),
+                  error: (error, stackTrace) {
+                    return const Icon(Icons.error_outline);
+                  },
+                ),
           ),
         ),
       ],

@@ -40,6 +40,7 @@ class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothDevicesModel> {
     state = await AsyncValue.guard(() async {
       model = model.copyWith(selectedDevice: device);
       List<ScanResult> scanResultList = model.scanResultList;
+
       if (model.selectedDevice != null) {
         scanResultList.removeWhere((element) =>
             element.device.id.id == model.selectedDevice!.device.id.id);
