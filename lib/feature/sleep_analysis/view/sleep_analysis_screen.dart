@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaljayo/constants/sizes.dart';
@@ -35,7 +36,10 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
               child: ListView.separated(
                 itemCount: sleepList.length,
                 itemBuilder: (context, index) {
-                  return dataItem(sleepList[index]);
+                  return dataItem(
+                    index,
+                    sleepList[index],
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return const Divider();
@@ -65,7 +69,7 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
   }
 }
 
-Widget dataItem(SleepDataModel sleep) {
+Widget dataItem(int idx, SleepDataModel sleep) {
   return Container(
     padding: const EdgeInsets.symmetric(
       horizontal: 8.0,
@@ -105,5 +109,17 @@ Widget dataItem(SleepDataModel sleep) {
         ],
       ),
     ),
-  );
+  )
+      .animate()
+      .then(delay: (idx * 50).ms)
+      .fadeIn(
+        duration: 300.ms,
+        curve: Curves.easeInOut,
+      )
+      .flipV(
+        begin: -0.25,
+        end: 0,
+        duration: 300.ms,
+        curve: Curves.easeInOut,
+      );
 }

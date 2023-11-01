@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jaljayo/feature/bluetooth/views/bluetooth.dart';
+import 'package:jaljayo/feature/bluetooth/views/bluetooth_dialog.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;

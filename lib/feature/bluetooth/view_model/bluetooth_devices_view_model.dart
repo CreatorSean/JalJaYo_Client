@@ -54,20 +54,25 @@ class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
   Future<void> scanDevices() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      List<ScanResult> scanResultList = <ScanResult>[];
-      scanResultList.clear();
-      // 스캔 결과 리스너
-      flutterBlue.scanResults.listen((results) {
-        scanResultList = results;
-      });
-      // 스캔 시작, 제한 시간 4초
-      await flutterBlue.startScan(timeout: const Duration(seconds: 4));
+      try {
+        List<ScanResult> scanResultList = <ScanResult>[];
+        scanResultList.clear();
+        // 스캔 결과 리스너
+        flutterBlue.scanResults.listen((results) {
+          scanResultList = results;
+        });
+        // 스캔 시작, 제한 시간 4초
+        await flutterBlue.startScan(timeout: const Duration(seconds: 4));
 
-      scanResultList = sortDevices(scanResultList);
+        scanResultList = sortDevices(scanResultList);
 
-      model = model.copyWith(scanResultList: scanResultList);
+        model = model.copyWith(scanResultList: scanResultList);
 
-      return model;
+        return model;
+      } catch (e) {
+        print(e);
+        return model;
+      }
     });
   }
 
