@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jaljayo/feature/bluetooth/views/bluetooth.dart';
+import 'package:jaljayo/feature/bluetooth/views/bluetooth_dialog.dart';
 
 class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -20,7 +21,16 @@ class _MainAppBarState extends State<MainAppBar> {
     showDialog(
       context: context,
       builder: (context) {
-        return const Bluetooth();
+        return const BluetoothDialog()
+            .animate()
+            .fadeIn(
+              duration: 200.ms,
+              curve: Curves.easeInOut,
+            )
+            .scaleXY(
+              begin: 0.0,
+              end: 1,
+            );
       },
     );
   }
