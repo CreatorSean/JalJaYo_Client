@@ -165,19 +165,11 @@ class _BluetoothState extends ConsumerState<Bluetooth> {
               onPressed: () {
                 onScan(ref);
               },
-              child: false
-                  ? const SizedBox(
-                      height: 22,
-                      width: 22,
-                      child: CircularProgressIndicator(
-                        color: Color(0xffffffff),
-                      ),
-                    )
-                  : const Icon(
-                      Icons.search,
-                      size: 22,
-                      color: Color(0xffffffff),
-                    ),
+              child: const Icon(
+                Icons.search,
+                size: 22,
+                color: Color(0xffffffff),
+              ),
             ),
           ],
         ),
