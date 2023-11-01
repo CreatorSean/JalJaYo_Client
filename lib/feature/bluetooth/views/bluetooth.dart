@@ -1,68 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaljayo/constants/gaps.dart';
+import 'package:jaljayo/feature/bluetooth/view_model/bluetooth_devices_view_model.dart';
 import 'package:jaljayo/feature/bluetooth/views/device_screen.dart';
 
-class Bluetooth extends StatefulWidget {
+class Bluetooth extends ConsumerStatefulWidget {
   const Bluetooth({super.key});
 
   @override
-  State<Bluetooth> createState() => _BluetoothState();
+  ConsumerState<Bluetooth> createState() => _BluetoothState();
 }
 
-class _BluetoothState extends State<Bluetooth> {
+class _BluetoothState extends ConsumerState<Bluetooth> {
   FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
-  List<ScanResult> scanResultList = [];
-  bool _isScanning = false;
-
-  @override
-  initState() {
-    super.initState();
-    // 블루투스 초기화
-    initBle();
-  }
-
-  void initBle() {
-    // BLE 스캔 상태 얻기 위한 리스너
-    flutterBlue.isScanning.listen((isScanning) {
-      _isScanning = isScanning;
-      print(_isScanning);
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    flutterBlue.stopScan();
-  }
-
-  /*
-  스캔 시작/정지 함수
-  */
-  scan() async {
-    try {
-      if (!_isScanning) {
-        // 스캔 중이 아니라면
-        // 기존에 스캔된 리스트 삭제
-        scanResultList.clear();
-        // 스캔 시작, 제한 시간 4초
-        flutterBlue.startScan(timeout: const Duration(seconds: 4));
-        // 스캔 결과 리스너
-        flutterBlue.scanResults.listen((results) {
-          // UI 갱신
-          setState(() {
-            scanResultList = results;
-          });
-        });
-      } else {
-        // 스캔 중이라면 스캔 정지
-        flutterBlue.stopScan();
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
 
   /*
    여기서부터는 장치별 출력용 함수들
@@ -140,14 +92,21 @@ class _BluetoothState extends State<Bluetooth> {
     );
   }
 
+  void onScan(WidgetRef ref) async {
+    ref.read(bluetooDevicesthViewModelProvider.notifier).scanDevices();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final displayWidth = MediaQuery.of(context).size.width;
+    final displayHeight = MediaQuery.of(context).size.height;
+
     return Dialog(
       backgroundColor: Colors.transparent,
       clipBehavior: Clip.antiAlias,
       child: Container(
-        height: 400,
-        width: 420,
+        height: displayHeight * 0.5,
+        width: displayHeight * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           color: const Color(0xff322D3F),
@@ -166,27 +125,47 @@ class _BluetoothState extends State<Bluetooth> {
           children: [
             Gaps.v12,
             const Text(
-              '페어링 할 기기 선택',
+              '연결 할 기기 선택',
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: Color(0xffFFFFFF)),
             ),
-            SizedBox(
-              height: 300,
-              child: ListView.separated(
-                itemCount: scanResultList.length,
-                itemBuilder: (context, index) {
-                  return listItem(scanResultList[index]);
-                },
-                separatorBuilder: (BuildContext context, index) {
-                  return const Divider();
-                },
-              ),
-            ),
+            ref.watch(bluetooDevicesthViewModelProvider).when(
+                  data: (scanResultList) {
+                    return Expanded(
+                      child: ListView.separated(
+                        itemCount: scanResultList.length,
+                        itemBuilder: (context, index) {
+                          return listItem(scanResultList[index]);
+                        },
+                        separatorBuilder: (BuildContext context, index) {
+                          return const Divider(
+                            color: Colors.white24,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  loading: () => const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  ),
+                  error: (error, stackTrace) => const Center(
+                    child: Text(
+                      '에러 발생',
+                      style: TextStyle(
+                        color: Color(0xffffffff),
+                      ),
+                    ),
+                  ),
+                ),
             CupertinoButton(
-              onPressed: scan,
-              child: _isScanning
+              onPressed: () {
+                onScan(ref);
+              },
+              child: false
                   ? const SizedBox(
                       height: 22,
                       width: 22,

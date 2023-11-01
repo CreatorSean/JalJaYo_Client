@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jaljayo/common/main_app_bar.dart';
 import 'package:jaljayo/constants/sizes.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
 import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.dart';
@@ -28,9 +27,6 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFD3D3D3),
-      appBar: const MainAppBar(
-        title: "Sleep Analysis",
-      ),
       body: ref.watch(sleepDataViewModelProvider).when(
         data: (sleepList) {
           return Padding(
