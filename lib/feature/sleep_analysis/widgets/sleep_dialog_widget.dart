@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
+import 'package:jaljayo/feature/sleep_analysis/view/sleep_analysis_screen.dart';
 import 'package:jaljayo/feature/sleep_analysis/view/sleep_state_screen.dart';
+import 'package:http/http.dart' as http;
+import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.dart';
 
 class SleepDialogWidget {
   late BuildContext context;
@@ -13,7 +18,7 @@ class SleepDialogWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SleepStateScreen(
-          sleepDate: sleep.sleepDate,
+          sleep: sleep,
         ),
       ),
     );
@@ -56,7 +61,9 @@ class SleepDialogWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () => _onSleepStateTap(context, sleep),
+                      onTap: () {
+                        _onSleepStateTap(context, sleep);
+                      },
                       child: Container(
                         height: 40,
                         width: 100,

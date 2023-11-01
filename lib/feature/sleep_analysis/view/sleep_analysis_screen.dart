@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaljayo/constants/sizes.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
 import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.dart';
+import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_dialog_widget.dart';
+import 'package:provider/provider.dart';
 
 class SleepAnalysisScreen extends ConsumerStatefulWidget {
   const SleepAnalysisScreen({super.key});
@@ -38,6 +40,7 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
                 itemBuilder: (context, index) {
                   return dataItem(
                     index,
+                    context,
                     sleepList[index],
                   );
                 },
@@ -69,7 +72,7 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
   }
 }
 
-Widget dataItem(int idx, SleepDataModel sleep) {
+Widget dataItem(int idx, BuildContext context, SleepDataModel sleep) {
   return Container(
     padding: const EdgeInsets.symmetric(
       horizontal: 8.0,
@@ -88,7 +91,9 @@ Widget dataItem(int idx, SleepDataModel sleep) {
       color: Colors.white,
     ),
     child: ListTile(
-      onTap: () {},
+      onTap: () {
+        SleepDialogWidget().sleepDialog(context, sleep);
+      },
       title: Text(sleep.sleepDate),
       titleAlignment: ListTileTitleAlignment.center,
       subtitle: Column(

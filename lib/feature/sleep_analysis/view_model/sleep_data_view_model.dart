@@ -25,6 +25,7 @@ class SleepDataViewModel extends AsyncNotifier<List<SleepDataModel>> {
     // SleepData 객체로 변환하여 리스트에 저장
     for (var item in dataList) {
       SleepDataModel sleepData = SleepDataModel(
+        modelName: item['modelName'],
         sleepDate: item['sleepDate'],
         startTime: item['startTime'],
         endTime: item['endTime'],
@@ -42,22 +43,27 @@ class SleepDataViewModel extends AsyncNotifier<List<SleepDataModel>> {
     return sleepList;
   }
 
-  Future<void> sleepAnalysis() async {
-    var url = "$baseUrl/sleepData";
-    var headers = {'Content-Type': 'application/json'};
-    var body = jsonEncode(dataList);
+  FutureOr<String> sleepAnalysis(int modelNum) async {
+    const url = "http://192.168.1.15:7700/api/sleep/data";
+    final headers = {'Content-Type': 'text/plain'};
+    final body = jsonEncode(modelNum);
 
     try {
-      var response =
+      final response =
           await http.post(Uri.parse(url), headers: headers, body: body);
+
       if (response.statusCode == 200) {
         print('데이터 전송 성공');
         print(response.body);
+        return response.body;
       } else {
         print('데이터 전송 실패: ${response.statusCode}');
+        print(response.body);
+        return response.body;
       }
     } catch (e) {
       print('데이터 전송 오류: $e');
+      return 'hello';
     }
   }
 }

@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/constants/sizes.dart';
+import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_linechart_widget.dart';
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_piechart_widget.dart';
 
-class SleepStateScreen extends StatelessWidget {
-  String sleepDate;
-  SleepStateScreen({
+class SleepStateScreen extends ConsumerStatefulWidget {
+  final SleepDataModel sleep;
+  const SleepStateScreen({
     super.key,
-    required this.sleepDate,
+    required this.sleep,
   });
 
+  @override
+  ConsumerState<SleepStateScreen> createState() => _SleepStateScreenState();
+}
+
+class _SleepStateScreenState extends ConsumerState<SleepStateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +74,7 @@ class SleepStateScreen extends StatelessWidget {
                     ),
                     Gaps.v16,
                     Text(
-                      sleepDate,
+                      widget.sleep.sleepDate,
                       style: const TextStyle(
                         color: Color(0xff322d3f),
                         fontWeight: FontWeight.w500,
@@ -209,7 +216,7 @@ class SleepStateScreen extends StatelessWidget {
                         child: CustomPaint(
                           // CustomPaint를 그리고 이 안에 차트를 그려줍니다..
                           size: const Size(
-                              80, 80), // CustomPaint의 크기는 가로 세로 150, 150으로 합니다.
+                              80, 80), // CustomPaint의 크기는 가로 세로 80, 80 합니다.
                           painter: SleepPieChartWidget(
                             percentage: 75,
                             textScaleFactor: 1.0,
