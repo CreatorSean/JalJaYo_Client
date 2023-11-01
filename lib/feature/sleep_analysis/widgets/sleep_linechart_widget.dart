@@ -30,9 +30,9 @@ class _SleepLineChartState extends State<SleepLineChart> {
 
     for (int i = 0; i < accData.length; i++) {
       if (accData[i] == 0.0) {
-        accData[i] = 35.0;
+        accData[i] = 40.0;
       } else {
-        accData[i] = 25.0;
+        accData[i] = 20.0;
       }
       rtnSpots.add(FlSpot(i.toDouble(), accData[i]));
     }
@@ -61,37 +61,47 @@ class _SleepLineChartState extends State<SleepLineChart> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: SizedBox(
-        width: 2050,
-        child: LineChart(
-          LineChartData(
-              clipData: const FlClipData.all(),
-              maxY: 60,
-              minY: 0,
-              baselineY: 0,
-              titlesData: const FlTitlesData(
-                show: true,
-                topTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: false,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 2050,
+          child: LineChart(
+            LineChartData(
+                clipData: const FlClipData.all(),
+                maxY: 60,
+                minY: 0,
+                baselineY: 0,
+                titlesData: const FlTitlesData(
+                  show: true,
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: false,
+                    ),
                   ),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false)),
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false)),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false)),
+                         
                 ),
-              ),
-              // gridData: FlGridData(
-              //   horizontalInterval: 1.0,
-              //   getDrawingHorizontalLine: (value) {
-              //     return const FlLine(
-              //       color: Colors.grey,
-              //       strokeWidth: 0.5,
-              //     );
-              //   },
-              // ),
-              lineBarsData: [
-                generateLineChartBarData(
-                  spots: generateSpotData(accData: widget.sleepStateData),
-                  color: const Color(0xff2A2F4F),
-                )
-              ]),
+                // gridData: FlGridData(
+                //   horizontalInterval: 1.0,
+                //   getDrawingHorizontalLine: (value) {
+                //     return const FlLine(
+                //       color: Colors.grey,
+                //       strokeWidth: 0.5,
+                //     );
+                //   },
+                // ),
+                lineBarsData: [
+                  generateLineChartBarData(
+                    spots: generateSpotData(accData: widget.sleepStateData),
+                    color: const Color(0xff2A2F4F),
+                  )
+                ]),
+          ),
         ),
       ),
     );

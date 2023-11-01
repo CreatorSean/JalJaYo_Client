@@ -156,11 +156,31 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                           ],
                         ),
                         Gaps.v20,
-                        SizedBox(
-                          height: 200,
-                          width: 400,
-                          child: SleepLineChart(
-                            sleepStateData: sleepStateData,
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                                Column(
+                                  children:[CircleAvatar(
+                                  radius: 6,
+                                  backgroundColor: Color(0xff707070),
+                                ),
+                                Gaps.v32,
+                                Gaps.v16,
+                                CircleAvatar(
+                                  radius: 6,
+                                  backgroundColor: Color(0xff2E4374),
+                                ),],),
+                                
+                              
+                              SizedBox(
+                                height: 200,
+                                width: 400,
+                                child: SleepLineChart(
+                                  sleepStateData: sleepStateData,
+                                ),
+                              ),
+                            ],
                           ),
                         )
                       ],
