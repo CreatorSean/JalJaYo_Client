@@ -16,6 +16,15 @@ class MainAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _MainAppBarState extends State<MainAppBar> {
+  void onBluetooth(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Bluetooth();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -24,7 +33,9 @@ class _MainAppBarState extends State<MainAppBar> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: IconButton(
-            onPressed: () => const Bluetooth(),
+            onPressed: () {
+              onBluetooth(context);
+            },
             icon: const Icon(FontAwesomeIcons.bluetooth),
           ),
         ),
