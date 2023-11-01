@@ -6,8 +6,8 @@ import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_linechart_widget.da
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_piechart_widget.dart';
 
 class SleepStateScreen extends StatelessWidget {
-  String sleepDate;
-  SleepStateScreen({
+  final String sleepDate;
+  const SleepStateScreen({
     super.key,
     required this.sleepDate,
   });
@@ -209,7 +209,7 @@ class SleepStateScreen extends StatelessWidget {
                         child: CustomPaint(
                           // CustomPaint를 그리고 이 안에 차트를 그려줍니다..
                           size: const Size(
-                              80, 80), // CustomPaint의 크기는 가로 세로 150, 150으로 합니다.
+                              80, 80), // CustomPaint의 크기는 가로 세로 80, 80 합니다.
                           painter: SleepPieChartWidget(
                             percentage: 75,
                             textScaleFactor: 1.0,

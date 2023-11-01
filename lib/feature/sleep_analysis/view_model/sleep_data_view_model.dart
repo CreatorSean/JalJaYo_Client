@@ -25,6 +25,7 @@ class SleepDataViewModel extends AsyncNotifier<List<SleepDataModel>> {
     // SleepData 객체로 변환하여 리스트에 저장
     for (var item in dataList) {
       SleepDataModel sleepData = SleepDataModel(
+        modelName: item['modelName'],
         sleepDate: item['sleepDate'],
         startTime: item['startTime'],
         endTime: item['endTime'],

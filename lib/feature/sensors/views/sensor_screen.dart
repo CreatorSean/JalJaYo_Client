@@ -5,22 +5,10 @@ import 'package:jaljayo/feature/sensors/widgets/acc_sensor_widget.dart';
 import 'package:jaljayo/feature/sensors/widgets/hr_sensor_widget.dart';
 import 'package:jaljayo/feature/sensors/widgets/oxygen_sensor_widget.dart';
 
-class SensorScreen extends StatefulWidget {
+class SensorScreen extends StatelessWidget {
   static String route = '/sensor';
 
   const SensorScreen({super.key});
-
-  @override
-  State<SensorScreen> createState() => _SensorScreenState();
-}
-
-class _SensorScreenState extends State<SensorScreen> {
-  bool isClicked = false;
-
-  @override
-  initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

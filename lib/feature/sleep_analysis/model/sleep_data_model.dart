@@ -1,9 +1,11 @@
 class SleepDataModel {
+  String modelName;
   String sleepDate;
   String startTime;
   String endTime;
   String sleepFile;
   SleepDataModel({
+    required this.modelName,
     required this.sleepDate,
     required this.startTime,
     required this.endTime,
@@ -11,7 +13,8 @@ class SleepDataModel {
   });
 
   SleepDataModel.fromJson(Map<String, dynamic> json)
-      : sleepDate = json["sleepDate"],
+      : modelName = json["modelName"],
+        sleepDate = json["sleepDate"],
         startTime = json["startTime"],
         endTime = json["endTime"],
         sleepFile = json["sleepFile"];
