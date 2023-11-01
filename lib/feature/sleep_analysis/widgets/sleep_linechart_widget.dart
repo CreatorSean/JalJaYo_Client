@@ -4,7 +4,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class SleepLineChart extends StatefulWidget {
-  const SleepLineChart({
+  List<dynamic> sleepStateData;
+   SleepLineChart({
+    required this.sleepStateData,
     super.key,
   });
 
@@ -27,7 +29,7 @@ class _SleepLineChartState extends State<SleepLineChart> {
   final double plotSmoothness = 0.5;
   final double plotWidth = 2;
 
-  List<FlSpot> generateSpotData({List<double>? accData}) {
+  List<FlSpot> generateSpotData({List<dynamic>? accData}) {
     List<FlSpot> rtnSpots = [];
 
     if (accData == null) {
@@ -38,6 +40,11 @@ class _SleepLineChartState extends State<SleepLineChart> {
     }
 
     for (int i = 0; i < accData.length; i++) {
+      if(accData[i] == 0.0){
+        accData[i] = 35.0;
+      }else{
+        accData[i] = 25.0;
+      }
       rtnSpots.add(FlSpot(i.toDouble(), accData[i]));
     }
 
@@ -89,7 +96,7 @@ class _SleepLineChartState extends State<SleepLineChart> {
             // ),
             lineBarsData: [
               generateLineChartBarData(
-                spots: generateSpotData(accData: sleep_data),
+                spots: generateSpotData(accData: widget.sleepStateData),
                 color: const Color(0xff2A2F4F),
               )
             ]),
