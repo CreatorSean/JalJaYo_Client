@@ -50,7 +50,7 @@ class SleepPieChartWidget extends CustomPainter {
         style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: Colors.black),
+            color: const Color(0xFF322D3F)),
         text: text); // TextSpan은 Text위젯과 거의 동일하다.
     TextPainter tp = TextPainter(text: sp, textDirection: TextDirection.ltr);
 
