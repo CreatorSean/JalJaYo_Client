@@ -26,6 +26,8 @@ class BluetoothDevicesViewModel extends AsyncNotifier<List<ScanResult>> {
             r.device.name.isEmpty && r.advertisementData.localName.isEmpty)
         .toList();
 
+    names.sort((a, b) => a.device.name.compareTo(b.device.name));
+
     names.addAll(noNames);
 
     return names;
