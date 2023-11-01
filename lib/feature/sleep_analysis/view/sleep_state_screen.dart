@@ -31,7 +31,19 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
         if (snapshot.hasData) {
           final data = snapshot.data!;
 
-          final List sleepAnalysData = data['sleep_list'];
+          final String sleepTSTHour = data['tst_hour'].toString();
+          final String sleepTSTMinu = data['tst_minute'].toString();
+          final String sleepWASOMin = data['waso_minute'].toString();
+          final int sleepTSTHourInt = data['tst_hour'];
+          final int totalSleepMin = data['tst_minute'] + data['waso_minute'];
+          final int extrasleepHr = totalSleepMin ~/ 60;
+          final int extrasleepMin = totalSleepMin % 60;
+          final int totalsleepHr = extrasleepHr + sleepTSTHourInt;
+          final String totalsleepHorstr = totalsleepHr.toString();
+          final String extrasleepMinStr = extrasleepMin.toString();
+          print(totalsleepHorstr);
+          print(extrasleepMinStr);
+          final int sleepSE = data['se: '] ~/ 1;
 
           return Scaffold(
             appBar: AppBar(
@@ -76,9 +88,9 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                     children: [
                       Column(
                         children: [
-                          const Text(
-                            '7H 4M',
-                            style: TextStyle(
+                          Text(
+                            '${totalsleepHorstr}H ${extrasleepMinStr}M',
+                            style: const TextStyle(
                               color: Color(0xff322d3f),
                               fontSize: Sizes.size20,
                               fontWeight: FontWeight.w600,
@@ -183,12 +195,12 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const Column(
+                        Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              '취침 시간',
+                            const Text(
+                              '순수 수면 시간',
                               style: TextStyle(
                                 color: Color(0xFF322D3F),
                                 fontSize: Sizes.size12,
@@ -196,15 +208,15 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                               ),
                             ),
                             Text(
-                              '오전 02:30',
-                              style: TextStyle(
+                              '${sleepTSTHour}H ${sleepTSTMinu}M',
+                              style: const TextStyle(
                                 color: Color(0xFF322D3F),
                                 fontSize: Sizes.size24,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Text(
-                              '기상 시간',
+                            const Text(
+                              '깬 시간',
                               style: TextStyle(
                                 color: Color(0xFF322D3F),
                                 fontSize: Sizes.size12,
@@ -212,11 +224,11 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                               ),
                             ),
                             Text(
-                              '오전 07:25',
-                              style: TextStyle(
+                              '${sleepWASOMin}M',
+                              style: const TextStyle(
                                 color: Color(0xFF322D3F),
                                 fontSize: Sizes.size24,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
@@ -232,7 +244,7 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                                 size: const Size(80,
                                     80), // CustomPaint의 크기는 가로 세로 80, 80 합니다.
                                 painter: SleepPieChartWidget(
-                                  percentage: 75,
+                                  percentage: sleepSE,
                                   textScaleFactor: 1.0,
                                   textColor: '0xFF322D3F',
                                 ),
