@@ -6,6 +6,7 @@ import 'package:jaljayo/constants/sizes.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
 import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.dart';
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_dialog_widget.dart';
+import 'package:provider/provider.dart';
 
 class SleepAnalysisScreen extends ConsumerStatefulWidget {
   const SleepAnalysisScreen({super.key});

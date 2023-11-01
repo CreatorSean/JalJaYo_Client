@@ -140,28 +140,39 @@ class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
                   debugPrint('d.lastValue: ${d.lastValue}');
                 }
               }
+              print("ok1");
+              if (c.properties.read) {
+                print("ok2");
+                List<int> value = await c.read();
+                print("value:  $value");
+                print(String.fromCharCodes(value));
+                c.value.listen((value) {
+                  // 데이터 읽기 처리!
+                  print('${c.uuid}: $value');
+                });
+              }
 
               // notify가 설정 안되었다면...
-              if (!c.isNotifying) {
-                try {
-                  await c.setNotifyValue(true);
-                  // 받을 데이터 변수 Map 형식으로 키 생성
-                  notifyDatas[c.uuid.toString()] = List.empty();
-                  c.value.listen((value) {
-                    // 데이터 읽기 처리!
-                    print('${c.uuid}: $value');
+              // if (!c.isNotifying) {
+              //   try {
+              //     await c.setNotifyValue(true);
+              //     // 받을 데이터 변수 Map 형식으로 키 생성
+              //     notifyDatas[c.uuid.toString()] = List.empty();
+              //     c.value.listen((value) {
+              //       // 데이터 읽기 처리!
+              //       print('${c.uuid}: $value');
 
-                    // 받은 데이터 저장 화면 표시용
-                    notifyDatas[c.uuid.toString()] = value;
-                    print('this is notifyDatas : $notifyDatas');
-                  });
+              //       // 받은 데이터 저장 화면 표시용
+              //       notifyDatas[c.uuid.toString()] = value;
+              //       print('this is notifyDatas : $notifyDatas');
+              //     });
 
-                  // 설정 후 일정시간 지연
-                  await Future.delayed(const Duration(milliseconds: 500));
-                } catch (e) {
-                  print('error ${c.uuid} $e');
-                }
-              }
+              //     // 설정 후 일정시간 지연
+              //     await Future.delayed(const Duration(milliseconds: 500));
+              //   } catch (e) {
+              //     print('error ${c.uuid} $e');
+              //   }
+              // }
             }
           }
         }

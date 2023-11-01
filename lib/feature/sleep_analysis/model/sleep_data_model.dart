@@ -1,5 +1,5 @@
 class SleepDataModel {
-  String modelName;
+  int modelName;
   String sleepDate;
   String startTime;
   String endTime;
@@ -21,6 +21,7 @@ class SleepDataModel {
 
   Map<String, dynamic> toMap() {
     return {
+      "modelName": modelName,
       "sleepDate": sleepDate,
       "startTime": startTime,
       "endTime": endTime,
