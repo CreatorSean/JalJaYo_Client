@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,23 +13,6 @@ import 'package:jaljayo/feature/bluetooth/views/device_screen.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
 import 'package:jaljayo/feature/sleep_analysis/view/sleep_state_screen.dart';
 import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.dart';
-
-const datas = [
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-  "2023년 10월 28일 수면 데이터 2023-10-27 23:16~2023-10-28 08:10",
-];
 
 class SleepAnalysisScreen extends ConsumerStatefulWidget {
   const SleepAnalysisScreen({super.key});
@@ -158,22 +140,6 @@ class _SleepAnalysisScreenState extends ConsumerState<SleepAnalysisScreen> {
       subtitle: deviceMacAddress(r),
       trailing: deviceSignal(r),
     );
-  }
-
-  Future<void> uploadCSVToServer(File csvFile) async {
-    var dio = Dio();
-    var uri = 'http://서버주소/upload';
-    var formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(csvFile.path),
-    });
-
-    try {
-      var response = await dio.post(uri, data: formData);
-      print('CSV 파일 업로드 성공');
-      print('Response: ${response.data}');
-    } catch (error) {
-      print('CSV 파일 업로드 실패: $error');
-    }
   }
 
   void _onSleepStateTap(BuildContext context, SleepDataModel sleep) {

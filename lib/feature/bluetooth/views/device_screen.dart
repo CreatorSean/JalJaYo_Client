@@ -162,6 +162,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                     setState(() {
                       // 받은 데이터 저장 화면 표시용
                       notifyDatas[c.uuid.toString()] = value;
+                      print('this is notifyDatas : $notifyDatas');
                     });
                   });
 

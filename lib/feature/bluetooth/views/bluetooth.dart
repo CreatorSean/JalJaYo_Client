@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/feature/bluetooth/views/device_screen.dart';
+import 'package:provider/provider.dart';
 
 class Bluetooth extends StatefulWidget {
   const Bluetooth({super.key});
@@ -26,30 +28,40 @@ class _BluetoothState extends State<Bluetooth> {
     // BLE 스캔 상태 얻기 위한 리스너
     flutterBlue.isScanning.listen((isScanning) {
       _isScanning = isScanning;
+      print(_isScanning);
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   /*
   스캔 시작/정지 함수
   */
   scan() async {
-    if (!_isScanning) {
-      // 스캔 중이 아니라면
-      // 기존에 스캔된 리스트 삭제
-      scanResultList.clear();
-      // 스캔 시작, 제한 시간 4초
-      flutterBlue.startScan(timeout: const Duration(seconds: 4));
-      // 스캔 결과 리스너
-      flutterBlue.scanResults.listen((results) {
-        // UI 갱신
-        setState(() {
-          scanResultList = results;
+    try {
+      if (!_isScanning) {
+        // 스캔 중이 아니라면
+        // 기존에 스캔된 리스트 삭제
+        scanResultList.clear();
+        // 스캔 시작, 제한 시간 4초
+        flutterBlue.startScan(timeout: const Duration(seconds: 4));
+        // 스캔 결과 리스너
+        flutterBlue.scanResults.listen((results) {
+          // UI 갱신
+          setState(() {
+            scanResultList = results;
+          });
         });
-      });
-    } else {
-      // 스캔 중이라면 스캔 정지
-      flutterBlue.stopScan();
+      } else {
+        // 스캔 중이라면 스캔 정지
+        flutterBlue.stopScan();
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -58,12 +70,22 @@ class _BluetoothState extends State<Bluetooth> {
   */
   /*  장치의 신호값 위젯  */
   Widget deviceSignal(ScanResult r) {
-    return Text(r.rssi.toString());
+    return Text(
+      r.rssi.toString(),
+      style: const TextStyle(
+        color: Colors.white,
+      ),
+    );
   }
 
   /* 장치의 MAC 주소 위젯  */
   Widget deviceMacAddress(ScanResult r) {
-    return Text(r.device.id.id);
+    return Text(
+      r.device.id.id,
+      style: const TextStyle(
+        color: Colors.white,
+      ),
+    );
   }
 
   /* 장치의 명 위젯  */
@@ -80,7 +102,12 @@ class _BluetoothState extends State<Bluetooth> {
       // 둘다 없다면 이름 알 수 없음...
       name = 'N/A';
     }
-    return Text(name);
+    return Text(
+      name,
+      style: const TextStyle(
+        color: Colors.white,
+      ),
+    );
   }
 
   /* BLE 아이콘 위젯 */
@@ -116,86 +143,82 @@ class _BluetoothState extends State<Bluetooth> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          color: Colors.blue,
-          height: 300,
-          width: 300,
-        ),
-      ],
-    );
-  }
-}
-/*
-SizedBox(
-      height: 300,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const SizedBox(height: 25),
-            const Text(
-              '페어링 할 기기 선택',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
+    return GestureDetector(
+      onTap: () {
+        setState(() {});
+      },
+      child: Stack(
+        children: [
+          const Center(
+            child: Text('not Clicked'),
+          ),
+          Container(
+            color: Colors.grey.withOpacity(0.8),
+          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height / 2 - 300,
+            left: MediaQuery.of(context).size.width / 2 - 160,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: const Color(0xff322D3F),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-            ),
-            ///////////////////////////////////////////////////////////
-            const SizedBox(height: 15),
-            SizedBox(
-              height: 280,
-              child: ListView.separated(
-                itemCount: scanResultList.length,
-                itemBuilder: (context, index) {
-                  return listItem(scanResultList[index]);
-                },
-                separatorBuilder: (BuildContext context, index) {
-                  return const Divider();
-                },
-              ),
-            ),
-            ///////////////////////////////////////////////////////////
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              height: 400,
+              width: 320,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Close',
-                      style: TextStyle(
-                        fontSize: 22,
+                  Gaps.v12,
+                  const Text(
+                    '페어링 할 기기 선택',
+                    style: TextStyle(
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
-                      ),
+                        color: Color(0xffFFFFFF)),
+                  ),
+                  SizedBox(
+                    height: 300,
+                    child: ListView.separated(
+                      itemCount: scanResultList.length,
+                      itemBuilder: (context, index) {
+                        return listItem(scanResultList[index]);
+                      },
+                      separatorBuilder: (BuildContext context, index) {
+                        return const Divider();
+                      },
                     ),
                   ),
                   CupertinoButton(
-                    onPressed: () {
-                      setState(
-                        () {
-                          scan();
-                        },
-                      );
-                    },
+                    onPressed: scan,
                     child: _isScanning
-                        ? const CircularProgressIndicator()
+                        ? const SizedBox(
+                            height: 22,
+                            width: 22,
+                            child: CircularProgressIndicator(
+                              color: Color(0xffffffff),
+                            ),
+                          )
                         : const Icon(
                             Icons.search,
                             size: 22,
+                            color: Color(0xffffffff),
                           ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
-*/
+  }
+}
