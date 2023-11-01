@@ -4,16 +4,15 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/feature/bluetooth/view_model/bluetooth_devices_view_model.dart';
-import 'package:jaljayo/feature/bluetooth/views/device_screen.dart';
 
-class Bluetooth extends ConsumerStatefulWidget {
-  const Bluetooth({super.key});
+class BluetoothDialog extends ConsumerStatefulWidget {
+  const BluetoothDialog({super.key});
 
   @override
-  ConsumerState<Bluetooth> createState() => _BluetoothState();
+  ConsumerState<BluetoothDialog> createState() => _BluetoothState();
 }
 
-class _BluetoothState extends ConsumerState<Bluetooth> {
+class _BluetoothState extends ConsumerState<BluetoothDialog> {
   FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
 
   /*
@@ -74,11 +73,7 @@ class _BluetoothState extends ConsumerState<Bluetooth> {
 
   /* 장치 아이템을 탭 했을때 호출 되는 함수 */
   void onTap(ScanResult r) {
-    // 단순히 이름만 출력
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => DeviceScreen(device: r.device)),
-    );
+    ref.read(bluetooDevicesthViewModelProvider.notifier).connectDevice(r);
   }
 
   /* 장치 아이템 위젯 */
@@ -132,7 +127,8 @@ class _BluetoothState extends ConsumerState<Bluetooth> {
                   color: Color(0xffFFFFFF)),
             ),
             ref.watch(bluetooDevicesthViewModelProvider).when(
-                  data: (scanResultList) {
+                  data: (model) {
+                    final scanResultList = model.scanResultList;
                     return Expanded(
                       child: ListView.separated(
                         itemCount: scanResultList.length,

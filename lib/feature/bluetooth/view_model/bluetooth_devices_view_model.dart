@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jaljayo/feature/bluetooth/model/bluetooth_model.dart';
 
-class BluetoothDevicesViewModel extends AsyncNotifier<List<ScanResult>> {
-  List<ScanResult> scanResultList = <ScanResult>[];
+class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
+  BluetoothModel model = BluetoothModel();
   final FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
 
   void initBLE() {
@@ -33,9 +34,27 @@ class BluetoothDevicesViewModel extends AsyncNotifier<List<ScanResult>> {
     return names;
   }
 
+  Future<void> connectDevice(ScanResult device) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      model = model.copyWith(selectedDevice: device);
+      List<ScanResult> scanResultList = model.scanResultList;
+      if (model.selectedDevice != null) {
+        scanResultList.removeWhere((element) =>
+            element.device.id.id == model.selectedDevice!.device.id.id);
+
+        model = model.copyWith(
+            scanResultList: [model.selectedDevice!] + scanResultList);
+      }
+
+      return model;
+    });
+  }
+
   Future<void> scanDevices() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
+      List<ScanResult> scanResultList = <ScanResult>[];
       scanResultList.clear();
       // 스캔 결과 리스너
       flutterBlue.scanResults.listen((results) {
@@ -46,19 +65,21 @@ class BluetoothDevicesViewModel extends AsyncNotifier<List<ScanResult>> {
 
       scanResultList = sortDevices(scanResultList);
 
-      return scanResultList;
+      model = model.copyWith(scanResultList: scanResultList);
+
+      return model;
     });
   }
 
   @override
-  FutureOr<List<ScanResult>> build() {
+  FutureOr<BluetoothModel> build() {
     // initBLE();
 
-    return scanResultList;
+    return model;
   }
 }
 
 final bluetooDevicesthViewModelProvider =
-    AsyncNotifierProvider<BluetoothDevicesViewModel, List<ScanResult>>(
+    AsyncNotifierProvider<BluetoothDevicesViewModel, BluetoothModel>(
   () => BluetoothDevicesViewModel(),
 );
