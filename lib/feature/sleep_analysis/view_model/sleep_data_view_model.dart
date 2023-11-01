@@ -3,13 +3,10 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jaljayo/constants/constnats.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
-import 'package:http/http.dart' as http;
 
 class SleepDataViewModel extends AsyncNotifier<List<SleepDataModel>> {
   List<SleepDataModel> sleepList = [];
-  List<String> dataList = ['apple', 'banana', 'Orange'];
 
   Future<List<SleepDataModel>> loadSleepList() async {
     // JSON 파일 불러오기
@@ -41,30 +38,6 @@ class SleepDataViewModel extends AsyncNotifier<List<SleepDataModel>> {
   FutureOr<List<SleepDataModel>> build() async {
     await loadSleepList();
     return sleepList;
-  }
-
-  FutureOr<String> sleepAnalysis(int modelNum) async {
-    const url = "http://192.168.1.15:7700/api/sleep/data";
-    final headers = {'Content-Type': 'text/plain'};
-    final body = jsonEncode(modelNum);
-
-    try {
-      final response =
-          await http.post(Uri.parse(url), headers: headers, body: body);
-
-      if (response.statusCode == 200) {
-        print('데이터 전송 성공');
-        print(response.body);
-        return response.body;
-      } else {
-        print('데이터 전송 실패: ${response.statusCode}');
-        print(response.body);
-        return response.body;
-      }
-    } catch (e) {
-      print('데이터 전송 오류: $e');
-      return 'hello';
-    }
   }
 }
 
