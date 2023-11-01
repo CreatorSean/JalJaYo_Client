@@ -39,7 +39,7 @@ class SelectedDeviceViewModel extends AsyncNotifier<SelectedDeviceModel> {
 
     connect();
 
-    timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       readCharacteristic();
     });
   }
@@ -121,7 +121,7 @@ class SelectedDeviceViewModel extends AsyncNotifier<SelectedDeviceModel> {
   }
 
   void disconnect() {
-    timer.cancel();
+    //timer.cancel();
     try {
       model.stateText = 'Disconnecting';
       if (model.device != null) {

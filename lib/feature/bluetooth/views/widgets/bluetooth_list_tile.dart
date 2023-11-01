@@ -9,9 +9,9 @@ import 'package:jaljayo/feature/bluetooth/view_model/selected_device_view_model.
 class BluetoothListTile extends ConsumerStatefulWidget {
   final ScanResult r;
   final int index;
-  bool selected;
+  final bool selected;
 
-  BluetoothListTile({
+  const BluetoothListTile({
     super.key,
     required this.r,
     required this.index,
