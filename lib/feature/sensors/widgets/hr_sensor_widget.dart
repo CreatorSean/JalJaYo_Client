@@ -18,6 +18,7 @@ class HrSensorWidget extends StatefulWidget {
 class _HrSensorWidgetState extends State<HrSensorWidget> {
   late final Timer _timer;
   final List<double> _hrData = List.filled(100, 0.0, growable: true);
+  final hrDataAvg = 0;
 
   final double plotSmoothness = 0.5;
   final double plotWidth = 2;
