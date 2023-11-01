@@ -34,16 +34,15 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
           final String sleepTSTHour = data['tst_hour'].toString();
           final String sleepTSTMinu = data['tst_minute'].toString();
           final String sleepWASOMin = data['waso_minute'].toString();
+          final List sleepStateData = data['sleep_list'];
           final int sleepTSTHourInt = data['tst_hour'];
           final int totalSleepMin = data['tst_minute'] + data['waso_minute'];
           final int extrasleepHr = totalSleepMin ~/ 60;
           final int extrasleepMin = totalSleepMin % 60;
+          final int sleepSE = data['se: '] ~/ 1;
           final int totalsleepHr = extrasleepHr + sleepTSTHourInt;
           final String totalsleepHorstr = totalsleepHr.toString();
           final String extrasleepMinStr = extrasleepMin.toString();
-          print(totalsleepHorstr);
-          print(extrasleepMinStr);
-          final int sleepSE = data['se: '] ~/ 1;
 
           return Scaffold(
             appBar: AppBar(
