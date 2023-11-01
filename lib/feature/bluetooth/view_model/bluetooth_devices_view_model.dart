@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jaljayo/feature/bluetooth/model/bluetooth_model.dart';
+import 'package:jaljayo/feature/bluetooth/model/bluetooth_devices_model.dart';
+import 'package:jaljayo/feature/bluetooth/view_model/selected_device_view_model.dart';
 
-class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
-  BluetoothModel model = BluetoothModel();
+class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothDevicesModel> {
+  BluetoothDevicesModel model = BluetoothDevicesModel();
   final FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
-  List<BluetoothService> bluetoothService = [];
-  Map<String, List<int>> notifyDatas = {};
 
   void initBLE() {
     flutterBlue.isScanning.listen((isScanning) {
@@ -37,7 +35,7 @@ class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
     return names;
   }
 
-  Future<void> connectDevice(ScanResult device) async {
+  Future<void> selectDevice(ScanResult device) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       model = model.copyWith(selectedDevice: device);
@@ -50,14 +48,16 @@ class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
             scanResultList: [model.selectedDevice!] + scanResultList);
       }
 
-      for (device in model.scanResultList) {
-        await device.device.disconnect();
+      for (final device2 in model.scanResultList) {
+        await device2.device.disconnect();
       }
+
+      ref.read(selectedDeviceViewModelProvider.notifier).select(
+            model.selectedDevice!.device,
+          );
 
       return model;
     });
-
-    await connect();
   }
 
   Future<void> scanDevices() async {
@@ -77,114 +77,24 @@ class BluetoothDevicesViewModel extends AsyncNotifier<BluetoothModel> {
 
         model = model.copyWith(scanResultList: scanResultList);
 
+        for (final device in model.scanResultList) {
+          await device.device.disconnect();
+        }
+
         return model;
       } catch (e) {
-        print(e);
         return model;
       }
     });
   }
 
   @override
-  FutureOr<BluetoothModel> build() {
-    // initBLE();
-
+  FutureOr<BluetoothDevicesModel> build() {
     return model;
-  }
-
-  Future<bool> connect() async {
-    Future<bool>? returnValue;
-    /* 
-      타임아웃을 15초(15000ms)로 설정 및 autoconnect 해제
-       참고로 autoconnect가 true되어있으면 연결이 지연되는 경우가 있음.
-     */
-    await model.selectedDevice!.device
-        .connect(autoConnect: false)
-        .timeout(const Duration(milliseconds: 15000), onTimeout: () {
-      //타임아웃 발생
-      //returnValue를 false로 설정
-      returnValue = Future.value(false);
-      debugPrint('timeout failed');
-    }).then((data) async {
-      bluetoothService.clear();
-      if (returnValue == null) {
-        //returnValue가 null이면 timeout이 발생한 것이 아니므로 연결 성공
-        debugPrint('connection successful');
-        debugPrint('start discover service');
-        List<BluetoothService> bleServices =
-            await model.selectedDevice!.device.discoverServices();
-
-        bluetoothService = bleServices;
-
-        // 각 속성을 디버그에 출력
-        for (BluetoothService service in bleServices) {
-          debugPrint('============================================');
-          debugPrint('Service UUID: ${service.uuid}');
-          for (BluetoothCharacteristic c in service.characteristics) {
-            debugPrint('\tcharacteristic UUID: ${c.uuid.toString()}');
-            debugPrint('\t\twrite: ${c.properties.write}');
-            debugPrint('\t\tread: ${c.properties.read}');
-            debugPrint('\t\tnotify: ${c.properties.notify}');
-            debugPrint('\t\tisNotifying: ${c.isNotifying}');
-            debugPrint(
-                '\t\twriteWithoutResponse: ${c.properties.writeWithoutResponse}');
-            debugPrint('\t\tindicate: ${c.properties.indicate}');
-
-            // notify나 indicate가 true면 디바이스에서 데이터를 보낼 수 있는 캐릭터리스틱이니 활성화 한다.
-            // 단, descriptors가 비었다면 notify를 할 수 없으므로 패스!
-            if (c.properties.notify && c.descriptors.isNotEmpty) {
-              // 진짜 0x2902 가 있는지 단순 체크용!
-              for (BluetoothDescriptor d in c.descriptors) {
-                debugPrint('BluetoothDescriptor uuid ${d.uuid}');
-                if (d.uuid == BluetoothDescriptor.cccd) {
-                  debugPrint('d.lastValue: ${d.lastValue}');
-                }
-              }
-              print("ok1");
-              if (c.properties.read) {
-                print("ok2");
-                List<int> value = await c.read();
-                print("value:  $value");
-                print(String.fromCharCodes(value));
-                c.value.listen((value) {
-                  // 데이터 읽기 처리!
-                  print('${c.uuid}: $value');
-                });
-              }
-
-              // notify가 설정 안되었다면...
-              // if (!c.isNotifying) {
-              //   try {
-              //     await c.setNotifyValue(true);
-              //     // 받을 데이터 변수 Map 형식으로 키 생성
-              //     notifyDatas[c.uuid.toString()] = List.empty();
-              //     c.value.listen((value) {
-              //       // 데이터 읽기 처리!
-              //       print('${c.uuid}: $value');
-
-              //       // 받은 데이터 저장 화면 표시용
-              //       notifyDatas[c.uuid.toString()] = value;
-              //       print('this is notifyDatas : $notifyDatas');
-              //     });
-
-              //     // 설정 후 일정시간 지연
-              //     await Future.delayed(const Duration(milliseconds: 500));
-              //   } catch (e) {
-              //     print('error ${c.uuid} $e');
-              //   }
-              // }
-            }
-          }
-        }
-        returnValue = Future.value(true);
-      }
-    });
-
-    return returnValue ?? Future.value(false);
   }
 }
 
 final bluetooDevicesthViewModelProvider =
-    AsyncNotifierProvider<BluetoothDevicesViewModel, BluetoothModel>(
+    AsyncNotifierProvider<BluetoothDevicesViewModel, BluetoothDevicesModel>(
   () => BluetoothDevicesViewModel(),
 );
