@@ -13,6 +13,24 @@ class BluetoothDevicesViewModel extends AsyncNotifier<List<ScanResult>> {
     });
   }
 
+  List<ScanResult> sortDevices(List<ScanResult> result) {
+    List<ScanResult> names =
+        result.where((r) => r.device.name.isNotEmpty).toList();
+
+    names.addAll(result
+        .where((r) =>
+            r.advertisementData.localName.isNotEmpty && r.device.name.isEmpty)
+        .toList());
+    final noNames = result
+        .where((r) =>
+            r.device.name.isEmpty && r.advertisementData.localName.isEmpty)
+        .toList();
+
+    names.addAll(noNames);
+
+    return names;
+  }
+
   Future<void> scanDevices() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
@@ -23,6 +41,8 @@ class BluetoothDevicesViewModel extends AsyncNotifier<List<ScanResult>> {
       });
       // 스캔 시작, 제한 시간 4초
       await flutterBlue.startScan(timeout: const Duration(seconds: 4));
+
+      scanResultList = sortDevices(scanResultList);
 
       return scanResultList;
     });
