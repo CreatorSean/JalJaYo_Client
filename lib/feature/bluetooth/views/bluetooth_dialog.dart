@@ -29,7 +29,7 @@ class _BluetoothState extends ConsumerState<BluetoothDialog> {
       backgroundColor: Colors.transparent,
       clipBehavior: Clip.antiAlias,
       child: Container(
-        height: displayHeight * 0.5,
+        height: displayHeight * 0.55,
         width: displayHeight * 0.8,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
