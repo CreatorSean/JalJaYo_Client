@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jaljayo/common/main_app_bar.dart';
@@ -117,10 +115,10 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                       borderRadius: BorderRadius.circular(25),
                       color: const Color(0xffeeeeee),
                     ),
-                    child:  Column(
+                    child: Column(
                       children: [
                         Gaps.v24,
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Gaps.h28,
@@ -157,11 +155,13 @@ class _SleepStateScreenState extends State<SleepStateScreen> {
                             ),
                           ],
                         ),
-                        Gaps.v16,
+                        Gaps.v20,
                         SizedBox(
                           height: 200,
                           width: 400,
-                          child: SleepLineChart(sleepStateData: sleepStateData,),
+                          child: SleepLineChart(
+                            sleepStateData: sleepStateData,
+                          ),
                         )
                       ],
                     ),

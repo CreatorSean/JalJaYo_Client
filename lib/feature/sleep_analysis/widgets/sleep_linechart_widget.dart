@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class SleepLineChart extends StatefulWidget {
   List<dynamic> sleepStateData;
-   SleepLineChart({
+  SleepLineChart({
     required this.sleepStateData,
     super.key,
   });
@@ -15,17 +15,6 @@ class SleepLineChart extends StatefulWidget {
 }
 
 class _SleepLineChartState extends State<SleepLineChart> {
-  final List<double> sleep_data = List.generate(
-    30,
-    (index) {
-      if (index % 2 == 0) {
-        return Random().nextDouble() * 10 + 45; // 45에서 55 사이의 난수 생성
-      } else {
-        return Random().nextDouble() * 10 + 20; // 20에서 30 사이의 난수 생성
-      }
-    },
-  );
-
   final double plotSmoothness = 0.5;
   final double plotWidth = 2;
 
@@ -40,9 +29,9 @@ class _SleepLineChartState extends State<SleepLineChart> {
     }
 
     for (int i = 0; i < accData.length; i++) {
-      if(accData[i] == 0.0){
+      if (accData[i] == 0.0) {
         accData[i] = 35.0;
-      }else{
+      } else {
         accData[i] = 25.0;
       }
       rtnSpots.add(FlSpot(i.toDouble(), accData[i]));
@@ -70,36 +59,40 @@ class _SleepLineChartState extends State<SleepLineChart> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: LineChart(
-        LineChartData(
-            clipData: const FlClipData.all(),
-            maxY: 60,
-            minY: 0,
-            baselineY: 0,
-            titlesData: const FlTitlesData(
-              show: true,
-              topTitles: AxisTitles(
-                sideTitles: SideTitles(
-                  showTitles: false,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SizedBox(
+        width: 2050,
+        child: LineChart(
+          LineChartData(
+              clipData: const FlClipData.all(),
+              maxY: 60,
+              minY: 0,
+              baselineY: 0,
+              titlesData: const FlTitlesData(
+                show: true,
+                topTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: false,
+                  ),
                 ),
               ),
-            ),
-            // gridData: FlGridData(
-            //   horizontalInterval: 1.0,
-            //   getDrawingHorizontalLine: (value) {
-            //     return const FlLine(
-            //       color: Colors.grey,
-            //       strokeWidth: 0.5,
-            //     );
-            //   },
-            // ),
-            lineBarsData: [
-              generateLineChartBarData(
-                spots: generateSpotData(accData: widget.sleepStateData),
-                color: const Color(0xff2A2F4F),
-              )
-            ]),
+              // gridData: FlGridData(
+              //   horizontalInterval: 1.0,
+              //   getDrawingHorizontalLine: (value) {
+              //     return const FlLine(
+              //       color: Colors.grey,
+              //       strokeWidth: 0.5,
+              //     );
+              //   },
+              // ),
+              lineBarsData: [
+                generateLineChartBarData(
+                  spots: generateSpotData(accData: widget.sleepStateData),
+                  color: const Color(0xff2A2F4F),
+                )
+              ]),
+        ),
       ),
     );
   }
