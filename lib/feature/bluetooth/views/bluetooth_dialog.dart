@@ -23,7 +23,6 @@ class _BluetoothState extends ConsumerState<BluetoothDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final displayWidth = MediaQuery.of(context).size.width;
     final displayHeight = MediaQuery.of(context).size.height;
 
     return Dialog(
@@ -70,6 +69,9 @@ class _BluetoothState extends ConsumerState<BluetoothDialog> {
                               itemBuilder: (context, index) {
                                 return BluetoothListTile(
                                   r: scanResultList[index],
+                                  selected:
+                                      model.selectedDevice?.device.id.id ==
+                                          scanResultList[index].device.id.id,
                                   index: index,
                                 );
                               },
@@ -98,13 +100,27 @@ class _BluetoothState extends ConsumerState<BluetoothDialog> {
                   'assets/lottie/ble.json',
                 ),
               ),
-              error: (error, stackTrace) => const Center(
-                child: Text(
-                  '에러 발생',
-                  style: TextStyle(
-                    color: Color(0xffffffff),
+              error: (error, stackTrace) => Column(
+                children: [
+                  const Expanded(
+                    child: Text(
+                      '에러 발생',
+                      style: TextStyle(
+                        color: Color(0xffffffff),
+                      ),
+                    ),
                   ),
-                ),
+                  CupertinoButton(
+                    onPressed: () {
+                      onScan(ref);
+                    },
+                    child: const Icon(
+                      Icons.search,
+                      size: 22,
+                      color: Color(0xffffffff),
+                    ),
+                  ),
+                ],
               ),
             ),
       ),
