@@ -18,7 +18,11 @@ class HrSensorWidget extends StatefulWidget {
 class _HrSensorWidgetState extends State<HrSensorWidget> {
   late final Timer _timer;
   final List<double> _hrData = List.filled(100, 0.0, growable: true);
-  final hrDataAvg = 0;
+  double hrDataSum = 0;
+  double hrDataAvg = 0;
+  int hrDataAvgInt = 0;
+  String? hrDataAvgStr;
+  int length = 1;
 
   final double plotSmoothness = 0.5;
   final double plotWidth = 2;
@@ -83,6 +87,8 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(length);
+    print(hrDataAvgInt);
     return Padding(
       padding: const EdgeInsets.all(25),
       child: Container(
@@ -195,11 +201,11 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
                     child: Column(
                       children: [
-                        const Text(
+                        Text(
                           "수면중 평균 심박수",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -209,13 +215,13 @@ class _HrSensorWidgetState extends State<HrSensorWidget> {
                         Row(
                           children: [
                             Text(
-                              _hrData.last.round().toString(),
-                              style: const TextStyle(
+                              '68',
+                              style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: Sizes.size24,
                               ),
                             ),
-                            const Text("BPM"),
+                            Text("BPM"),
                           ],
                         ),
                       ],

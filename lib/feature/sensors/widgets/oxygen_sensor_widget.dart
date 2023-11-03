@@ -14,7 +14,7 @@ class OxygenSensorWidget extends StatefulWidget {
 }
 
 class _OxygenSensorState extends State<OxygenSensorWidget> {
-  double _oxygenValue = 70.0; // 초기 산소 농도
+  double _oxygenValue = 95.0; // 초기 산소 농도
   late Timer _timer; // 타이머 변수
 
   @override
@@ -36,7 +36,7 @@ class _OxygenSensorState extends State<OxygenSensorWidget> {
         setState(() {
           // 난수 생성 및 값 업데이트
           final random = Random();
-          _oxygenValue = random.nextInt(31) + 70;
+          _oxygenValue = random.nextInt(5) + 95;
         });
       }
     });
@@ -49,6 +49,8 @@ class _OxygenSensorState extends State<OxygenSensorWidget> {
       body: Padding(
         padding: const EdgeInsets.only(
           bottom: 20,
+          left: 25,
+          right: 25,
         ),
         child: Container(
           height: 200,
