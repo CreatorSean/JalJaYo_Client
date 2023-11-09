@@ -6,7 +6,8 @@ import 'package:jaljayo/feature/sensors/widgets/hr_sensor_widget.dart';
 import 'package:jaljayo/feature/sensors/widgets/oxygen_sensor_widget.dart';
 
 class SensorScreen extends StatelessWidget {
-  static String route = '/sensor';
+  static String routeURL = '/sensor';
+  static String routeName = 'sensors';
 
   const SensorScreen({super.key});
 

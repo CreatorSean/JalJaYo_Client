@@ -10,6 +10,8 @@ import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_piechart_widget.dar
 
 class SleepStateScreen extends StatefulWidget {
   final SleepDataModel sleep;
+  static String routeURL = ':sleepID';
+  static String routeName = 'sleepState';
   const SleepStateScreen({
     super.key,
     required this.sleep,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jaljayo/constants/gaps.dart';
 import 'package:jaljayo/feature/sleep_analysis/model/sleep_data_model.dart';
-import 'package:jaljayo/feature/sleep_analysis/view/sleep_analysis_screen.dart';
 import 'package:jaljayo/feature/sleep_analysis/view/sleep_state_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.dart';

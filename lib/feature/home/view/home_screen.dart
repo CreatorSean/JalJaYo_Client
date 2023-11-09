@@ -6,7 +6,8 @@ import 'package:jaljayo/feature/sensors/views/sensor_screen.dart';
 import 'package:jaljayo/feature/sleep_analysis/view/sleep_analysis_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static String route = '/';
+  static String routeURL = '/';
+  static String routeName = 'home';
   const HomeScreen({super.key});
 
   @override
