@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "342790448321",
+    "project_id": "jaljayo",
+    "storage_bucket": "jaljayo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342790448321:android:0eff7e3e21e8b9e8da2040",
+        "android_client_info": {
+          "package_name": "com.example.jaljayo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv-T-_rey-9bNL1XGDi1WPkhZ8gU4tdd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
