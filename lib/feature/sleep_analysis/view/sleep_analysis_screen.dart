@@ -8,8 +8,6 @@ import 'package:jaljayo/feature/sleep_analysis/view_model/sleep_data_view_model.
 import 'package:jaljayo/feature/sleep_analysis/widgets/sleep_dialog_widget.dart';
 
 class SleepAnalysisScreen extends ConsumerStatefulWidget {
-  static String routeURL = '/sleep';
-  static String routeName = 'sleeps';
   const SleepAnalysisScreen({super.key});
 
   @override

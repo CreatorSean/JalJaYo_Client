@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class SleepServerViewModel {
   Future<Map<String, dynamic>> sleepAnalysis(int modelNum) async {
-    const url = "http://192.168.1.15:7700/api/sleep/data";
+    const url = "http://192.168.1.38:7700/api/sleep/data";
     final headers = {'Content-Type': 'text/plain'};
     final body = jsonEncode(modelNum);
     try {
